@@ -66,23 +66,23 @@
       "typedRoutes": true
     },
     "extra": {
-      "router": {},
-      "eas": {
-        "projectId": "991a22d8-a78e-4a34-a20d-0f7f3e0cbafa"
-      },
-      "env": {
-        "API_BASE_URL": "http://localhost:8080",
-        "API_TIMEOUT": "10000",
-        "API_VERSION": "v1",
-        "API_ENCRYPT": "true",
-        "APP_NAME": "ScoreGPT",
-        "APP_VERSION": "1.5.1",
-        "APP_ENVIRONMENT": "development",
-        "CACHE_MAX_SIZE": "100000000",
-        "CACHE_EXPIRE_TIME": "86400000",
-        "LOG_LEVEL": "info",
-        "LOG_ENABLE_CONSOLE": "true"
-      }
-    }
+  "router": {},
+  "eas": {
+    "projectId": "991a22d8-a78e-4a34-a20d-0f7f3e0cbafa"
+  },
+  "env": {
+    "API_BASE_URL": "https://api.sportlt.dpdns.org",
+    "API_TIMEOUT": "10000",
+    "API_VERSION": "v1",
+    "API_ENCRYPT": "true",
+    "APP_NAME": "ScoreGPT",
+    "APP_VERSION": "1.5.1",
+    "APP_ENVIRONMENT": "production",
+    "CACHE_MAX_SIZE": "100000000",
+    "CACHE_EXPIRE_TIME": "86400000",
+    "LOG_LEVEL": "info",
+    "LOG_ENABLE_CONSOLE": "true"
+  }
+}
   }
 }
