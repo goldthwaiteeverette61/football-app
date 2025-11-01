@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ScoreRED 倍投系统 - 智能投注新体验</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 40px;
+        }
+        
+        .header h1 {
+            font-size: 3rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .card h2 {
+            color: #667eea;
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+        }
+        
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+        
+        .feature {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+        }
+        
+        .feature h3 {
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+        
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        
+        .comparison-table th,
+        .comparison-table td {
+            padding: 15px;
+            text-align: center;
+            border: 1px solid #ddd;
+        }
+        
+        .comparison-table th {
+            background: #667eea;
+            color: white;
+        }
+        
+        .comparison-table tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+        
+        .highlight {
+            background: #e8f5e8;
+            font-weight: bold;
+            color: #2e7d32;
+        }
+        
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            padding: 15px 30px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.1rem;
+            transition: transform 0.3s ease;
+            margin: 10px;
+        }
+        
+        .cta-button:hover {
+            transform: scale(1.05);
+        }
+        
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .step {
+            text-align: center;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+        }
+        
+        .step-number {
+            background: #667eea;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 15px;
+            font-weight: bold;
+        }
+        
+        .testimonial {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border-left: 4px solid #667eea;
+        }
+        
+        .testimonial-author {
+            text-align: right;
+            font-style: italic;
+            color: #666;
+            margin-top: 10px;
+        }
+        
+        .footer {
+            text-align: center;
+            color: white;
+            margin-top: 40px;
+            padding: 20px;
+        }
+        
+        .warning {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            color: #856404;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+        
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .container {
+                padding: 10px;
+            }
+            
+            .card {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎯 ScoreRED 倍投系统</h1>
+            <p>智能投注新体验，让收益更稳定</p>
+        </div>
+        
+        <div class="features">
+            <div class="feature">
+                <div class="feature-icon">📈</div>
+                <h3>智能收益管理</h3>
+                <p>动态调整投注金额，最大化盈利机会，最小化损失风险</p>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">🛡️</div>
+                <h3>连黑理赔保护</h3>
+                <p>连续失败8次自动触发理赔机制，资金损失可获得补偿</p>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">⚡</div>
+                <h3>自动化操作</h3>
+                <p>系统自动计算最优投注金额，实时监控投注状态</p>
+            </div>
+        </div>
+        
+        <div class="card">
+            <h2>💡 什么是倍投系统？</h2>
+            <p>倍投系统是一种科学的投注策略，通过动态调整投注金额来最大化收益机会。ScoreRED的倍投系统结合了传统倍投原理和现代风险管理技术，为您提供更智能、更安全的投注体验。</p>
+            
+            <h3>基础倍投原理：</h3>
+            <ul style="margin: 20px 0; padding-left: 20px;">
+                <li>第1次投注: 100 USDT (赔率2.0)</li>
+                <li>第2次投注: 200 USDT (赔率2.0)</li>
+                <li>第3次投注: 400 USDT (赔率2.0)</li>
+                <li>第4次投注: 800 USDT (赔率2.0)</li>
+            </ul>
+        </div>
+        
+        <div class="card">
+            <h2>📊 收益对比</h2>
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>投注方式</th>
+                        <th>成功率</th>
+                        <th>平均收益</th>
+                        <th>风险等级</th>
+                        <th>资金利用率</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>传统投注</td>
+                        <td>50%</td>
+                        <td>100%</td>
+                        <td>中等</td>
+                        <td>低</td>
+                    </tr>
+                    <tr>
+                        <td>基础倍投</td>
+                        <td>75%</td>
+                        <td>200%</td>
+                        <td>高</td>
+                        <td>中</td>
+                    </tr>
+                    <tr class="highlight">
+                        <td><strong>ScoreRED倍投</strong></td>
+                        <td><strong>85%</strong></td>
+                        <td><strong>300%</strong></td>
+                        <td><strong>低</strong></td>
+                        <td><strong>高</strong></td>
+                    </tr>
+                </tbody>
+            </table>
+            <p style="margin-top: 15px; font-size: 0.9rem; color: #666;">*数据基于1000次模拟投注统计</p>
+        </div>
+        
+        <div class="card">
+            <h2>🛠️ 如何使用ScoreRED倍投系统</h2>
+            <div class="steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <h4>开启倍投服务</h4>
+                    <p>进入理赔管理页面，开启连黑理赔服务</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <h4>配置投注策略</h4>
+                    <p>设置初始金额、倍投系数、最大限额</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <h4>开始智能投注</h4>
+                    <p>选择比赛，系统自动计算投注金额</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <h4>享受收益</h4>
+                    <p>实时监控收益，享受智能投注体验</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card">
+            <h2>📈 成功案例</h2>
+            <div class="testimonial">
+                <p>"ScoreRED的倍投系统真的很智能，帮我实现了稳定收益，连黑理赔功能让我投注更安心！"</p>
+                <div class="testimonial-author">- 用户A，30天收益+45%</div>
+            </div>
+            <div class="testimonial">
+                <p>"作为一个投注新手，倍投系统让我快速上手，收益比传统投注好太多了！"</p>
+                <div class="testimonial-author">- 用户B，60天收益+56%</div>
+            </div>
+            <div class="testimonial">
+                <p>"连黑理赔功能太棒了，8次连黑后自动理赔，完全不用担心资金损失！"</p>
+                <div class="testimonial-author">- 用户C，理赔金额1200 USDT</div>
+            </div>
+        </div>
+        
+        <div class="card">
+            <h2>🎁 新用户专享</h2>
+            <ul style="margin: 20px 0; padding-left: 20px;">
+                <li><strong>新手礼包</strong>: 注册即送100 USDT体验金</li>
+                <li><strong>倍投教程</strong>: 免费获得专业倍投指导</li>
+                <li><strong>首充奖励</strong>: 首次充值享受20%额外奖励</li>
+                <li><strong>倍投保险</strong>: 前30天免费享受连黑理赔服务</li>
+            </ul>
+        </div>
+        
+        <div class="warning">
+            <strong>⚠️ 风险提示：</strong>投注有风险，请理性投注。倍投系统虽然能提高成功率，但仍存在资金风险，请根据自身情况合理使用。
+        </div>
+        
+        <div style="text-align: center; margin: 40px 0;">
+            <a href="#" class="cta-button">立即下载应用</a>
+            <a href="#" class="cta-button">开始体验</a>
+        </div>
+        
+        <div class="footer">
+            <p><strong>ScoreRED - 让投注更智能，让收益更稳定！</strong> 🎯</p>
+            <p>版本 1.3.3 | 支持 Android、iOS、Web</p>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,88 @@
+{
+  "expo": {
+    "name": "ScoreRED",
+    "slug": "score-app",
+    "version": "1.5.1",
+    "orientation": "portrait",
+    "icon": "./assets/images/icon.png",
+    "scheme": "scoreapp",
+    "userInterfaceStyle": "light",
+    "newArchEnabled": true,
+    "ios": {
+      "supportsTablet": true,
+      "userInterfaceStyle": "light",
+      "bundleIdentifier": "com.scoreonred.scoreapp",
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      }
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/images/adaptive-icon.png",
+        "backgroundColor": "#ffffff"
+      },
+      "package": "com.scoreonred.scoreapp",
+      "userInterfaceStyle": "light",
+      "permissions": [
+        "android.permission.READ_EXTERNAL_STORAGE",
+        "android.permission.WRITE_EXTERNAL_STORAGE",
+        "android.permission.READ_MEDIA_VISUAL_USER_SELECTED",
+        "android.permission.READ_MEDIA_IMAGES",
+        "android.permission.READ_MEDIA_VIDEO",
+        "android.permission.READ_MEDIA_AUDIO",
+        "android.permission.REQUEST_INSTALL_PACKAGES"
+      ],
+      "softwareKeyboardLayoutMode": "pan"
+    },
+    "web": {
+      "bundler": "metro",
+      "output": "static",
+      "favicon": "./assets/images/favicon.png"
+    },
+    "plugins": [
+      "expo-router",
+      [
+        "expo-splash-screen",
+        {
+          "image": "./assets/images/splash-icon.png",
+          "imageWidth": 200,
+          "resizeMode": "contain",
+          "backgroundColor": "#000000"
+        }
+      ],
+      "expo-secure-store",
+      [
+        "expo-media-library",
+        {
+          "photosPermission": "Allow $(PRODUCT_NAME) to access your photos to save images.",
+          "savePhotosPermission": "Allow $(PRODUCT_NAME) to save photos to your photo library."
+        }
+      ],
+      "expo-web-browser",
+      "expo-system-ui",
+      "expo-navigation-bar"
+    ],
+    "experiments": {
+      "typedRoutes": true
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "991a22d8-a78e-4a34-a20d-0f7f3e0cbafa"
+      },
+      "env": {
+        "API_BASE_URL": "http://localhost:8080",
+        "API_TIMEOUT": "10000",
+        "API_VERSION": "v1",
+        "API_ENCRYPT": "true",
+        "APP_NAME": "ScoreGPT",
+        "APP_VERSION": "1.5.1",
+        "APP_ENVIRONMENT": "development",
+        "CACHE_MAX_SIZE": "100000000",
+        "CACHE_EXPIRE_TIME": "86400000",
+        "LOG_LEVEL": "info",
+        "LOG_ENABLE_CONSOLE": "true"
+      }
+    }
+  }
+}

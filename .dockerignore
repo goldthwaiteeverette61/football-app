@@ -1,0 +1,41 @@
+# 排除不需要的文件
+node_modules/
+.git/
+.gitignore
+README.md
+docs/
+examples/
+scripts/
+*.log
+*.tmp
+.DS_Store
+Thumbs.db
+
+# 排除开发文件
+.env
+.env.local
+.env.development
+.env.test
+.env.production
+
+# 排除构建工具
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# 排除测试文件
+__tests__/
+*.test.js
+*.test.ts
+*.spec.js
+*.spec.ts
+
+# 排除其他平台构建
+android/
+ios/
+.expo/
+.expo-shared/
+
+# 保留dist/目录用于Web构建
+!dist/
