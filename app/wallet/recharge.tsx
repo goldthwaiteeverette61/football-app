@@ -10,15 +10,15 @@ import { StatusBar } from 'expo-status-bar';
 import { useEffect, useRef, useState } from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
 import {
-    ActivityIndicator,
-    Button,
-    Card,
-    Divider,
-    Icon,
-    IconButton,
-    Snackbar,
-    Text,
-    useTheme
+  ActivityIndicator,
+  Button,
+  Card,
+  Divider,
+  Icon,
+  IconButton,
+  Snackbar,
+  Text,
+  useTheme
 } from 'react-native-paper';
 import QRCode from 'react-native-qrcode-svg';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -266,7 +266,7 @@ export default function RechargeScreen() {
                 <View style={styles.errorContainer}>
                   <Icon source="alert-circle" size={48} color={theme.colors.error} />
                   <Text variant="bodyMedium" style={[styles.errorText, { color: theme.colors.error }]}>
-                    充值地址不可用
+                    充值系统维护中
                   </Text>
                   <Text variant="bodySmall" style={[styles.errorSubtext, { color: theme.colors.onSurfaceVariant }]}> 
                     該頁面不支持刷新操作
