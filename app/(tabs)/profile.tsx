@@ -77,7 +77,7 @@ export default function ProfileScreen() {
         {
           text: '打開',
           onPress: () => {
-            const telegramUrl = 'https://t.me/DavidCraft2021'; // ScoreRED 红分群
+            const telegramUrl = '';
             Linking.openURL(telegramUrl).catch((err) => {
               console.error('無法打開Telegram:', err);
               alert('錯誤', '無法打開Telegram，請檢查是否已安裝Telegram應用');
