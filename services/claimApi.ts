@@ -94,11 +94,11 @@ export const claimApi = {
 
   // 重置倍投
   resetLosses: async (payPassword: string): Promise<ApiResponse<ResetLossesResponse>> => {
-    return apiClient.post(`/app/reward/reset-losses?payPassword=${encodeURIComponent(payPassword)}`);
+    return apiClient.post(`/app/reward/reset-losses`, { payPassword });
   },
 
   // 申请理赔
   applyClaim: async (payPassword: string): Promise<ApiResponse<ResetLossesResponse>> => {
-    return apiClient.post(`/app/reward/claim?payPassword=${encodeURIComponent(payPassword)}`);
+    return apiClient.post(`/app/reward/claim`, { payPassword });
   },
 };

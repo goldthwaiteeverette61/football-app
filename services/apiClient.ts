@@ -90,6 +90,16 @@ class ApiClient {
 
   // 处理响应
   private async handleResponse<T>(response: Response): Promise<ApiResponse<T>> {
+    // 模拟403错误用于测试
+    if (response.url.includes('/member/user/info')) {
+      console.log('🧪 模拟403 Forbidden 错误');
+      const errorResponse = new Response(JSON.stringify({ message: 'Forbidden' }), {
+        status: 403,
+        headers: { 'Content-Type': 'application/json' },
+      });
+      response = errorResponse;
+    }
+
     const contentType = response.headers.get('content-type');
     const isJson = contentType && contentType.includes('application/json');
     
@@ -148,6 +158,22 @@ class ApiClient {
       }
       
       throw new Error(ERROR_MESSAGES.UNAUTHORIZED);
+    }
+
+    if (response.status === HTTP_STATUS.FORBIDDEN) {
+      console.log('API返回403禁止访问错误，调用AuthContext处理...');
+      
+      if (authContextRef && authContextRef.handleForbidden) {
+        try {
+          await authContextRef.handleForbidden();
+        } catch (error) {
+          console.error('❌ AuthContext处理403错误失败:', error);
+        }
+      } else {
+        console.warn('⚠️ AuthContext引用未设置，无法处理403错误');
+      }
+      
+      throw new Error(ERROR_MESSAGES.FORBIDDEN);
     }
     
     // 然后检查HTTP状态码的401错误

@@ -203,7 +203,7 @@ const handleLogin = async () => {
   try {
     const response = await authApi.login({
       username: 'user123',
-      password: 'password123',
+      password: 'your_password_123',
       captcha: 'ABCD',
       captchaId: 'captcha-id'
     });

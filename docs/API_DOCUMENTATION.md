@@ -177,7 +177,7 @@ Content-Type: application/json
 
 {
   "username": "newuser",
-  "password": "password123",
+  "password": "your_password",
   "invitation_code": "SCORE2024ABC",
   "captcha": "123456"
 }
@@ -403,7 +403,7 @@ Authorization: Bearer {token}
 Content-Type: application/json
 
 {
-  "pay_password": "user_password"
+  "pay_password": "your_pay_password"
 }
 ```
 

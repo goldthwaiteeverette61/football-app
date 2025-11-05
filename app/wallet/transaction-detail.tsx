@@ -4,10 +4,10 @@ import { StatusBar } from 'expo-status-bar';
 import { useEffect, useState } from 'react';
 import { Alert, ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native';
 import {
-    Card,
-    Divider,
-    Text,
-    useTheme
+  Card,
+  Divider,
+  Text,
+  useTheme
 } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -445,7 +445,7 @@ export default function TransactionDetailScreen() {
           佣金类型
         </Text>
         <Text variant="bodyMedium" style={[styles.detailValue, { color: theme.colors.onSurface }]}> 
-          {(details && (details.commissionType || details.type)) || '投注返佣'}
+          {(details && (details.commissionType || details.type)) || '返佣'}
         </Text>
       </View>
       {details && details.orderId && (

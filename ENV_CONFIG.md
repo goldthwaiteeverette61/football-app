@@ -32,7 +32,7 @@ SECURE_CRYPTO_KEY=你的安全密钥
 
 # 测试数据（仅用于开发环境）
 TEST_USERNAME=admin
-TEST_PASSWORD=admin123
+TEST_PASSWORD=your_test_password
 TEST_PASSPHRASE=testpass123
 
 # 应用配置
