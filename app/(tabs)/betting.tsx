@@ -801,7 +801,15 @@ export default function BettingScreen() {
                     return Date.now() < deadlineMs;
                   })() && (
                     <View style={styles.waitingContainer}>
-                      <Icon source="lock" size={48} color={theme.colors.outline} />
+                      {/* 替换了锁头图标 */}
+                      {todayScheme.bonusRange ? (
+                        <Text variant="titleMedium" style={[styles.bonusRangeText, { color: theme.colors.onSurface }]}>
+                          赔率：{todayScheme.bonusRange}
+                        </Text>
+                      ) : (
+                        <View style={{ height: 24 }} /> // 保留一个占位，以免布局跳动
+                      )}
+                      
                       {countdown ? (
                         <Text variant="titleMedium" style={[styles.countdownText, { color: theme.colors.primary }]}>
                           {countdown}
@@ -1339,6 +1347,12 @@ const styles = StyleSheet.create({
     fontSize: 11,
     textAlign: 'center',
     width: '100%',
+  },
+  bonusRangeText: {
+    fontWeight: '600',
+    // 这个文本替代了原来的Icon, Icon下面是countdownText (marginTop: 12)
+    // bonusRangeText 和 countdownText 之间不需要额外边距，
+    // countdownText 自己的 marginTop 应该被保留。
   },
   waitingContainer: {
     alignItems: 'center',

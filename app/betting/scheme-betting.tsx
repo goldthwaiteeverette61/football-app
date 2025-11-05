@@ -1,17 +1,17 @@
 import { Stack, useLocalSearchParams, useRouter } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
-import React, { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
 import {
-    Button,
-    Card,
-    Chip,
-    Icon,
-    Surface,
-    Switch,
-    Text,
-    TextInput,
-    useTheme
+  Button,
+  Card,
+  Chip,
+  Icon,
+  Surface,
+  Switch,
+  Text,
+  TextInput,
+  useTheme
 } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
 

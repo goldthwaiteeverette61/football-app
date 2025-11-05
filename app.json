@@ -2,7 +2,7 @@
   "expo": {
     "name": "ScoreRED",
     "slug": "score-app",
-    "version": "1.5.1",
+    "version": "1.5.5",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "scheme": "scoreapp",
@@ -60,29 +60,30 @@
       ],
       "expo-web-browser",
       "expo-system-ui",
-      "expo-navigation-bar"
+      "expo-navigation-bar",
+      "expo-font"
     ],
     "experiments": {
       "typedRoutes": true
     },
     "extra": {
-  "router": {},
-  "eas": {
-    "projectId": "abc"
-  },
-  "env": {
-    "API_BASE_URL": "http://localhost:8080",
-    "API_TIMEOUT": "10000",
-    "API_VERSION": "v1",
-    "API_ENCRYPT": "true",
-    "APP_NAME": "ScoreGPT",
-    "APP_VERSION": "1.5.1",
-    "APP_ENVIRONMENT": "production",
-    "CACHE_MAX_SIZE": "100000000",
-    "CACHE_EXPIRE_TIME": "86400000",
-    "LOG_LEVEL": "info",
-    "LOG_ENABLE_CONSOLE": "true"
-  }
-}
+      "router": {},
+      "eas": {
+        "projectId": "abc"
+      },
+      "env": {
+        "API_BASE_URL": "https://api.sportlt.dpdns.org",
+        "API_TIMEOUT": "10000",
+        "API_VERSION": "v1",
+        "API_ENCRYPT": "true",
+        "APP_NAME": "ScoreGPT",
+        "APP_VERSION": "1.5.5",
+        "APP_ENVIRONMENT": "development",
+        "CACHE_MAX_SIZE": "100000000",
+        "CACHE_EXPIRE_TIME": "86400000",
+        "LOG_LEVEL": "info",
+        "LOG_ENABLE_CONSOLE": "true"
+      }
+    }
   }
 }

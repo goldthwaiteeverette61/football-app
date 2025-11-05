@@ -3,7 +3,7 @@ import { authApi, LoginRequest, LoginResponse, RegisterRequest } from '@/service
 import { userApi } from '@/services/userApi';
 import userInfoCache, { UserInfo } from '@/services/userInfoCache';
 import { useRouter } from 'expo-router';
-import { createContext, ReactNode, useCallback, useContext, useEffect, useMemo, useState } from 'react';
+import React, { createContext, ReactNode, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { LOGIN_CONFIG, STORAGE_KEYS } from '../constants/auth';
 import { extractUserInfoFromToken, isTokenExpiredByExpireIn } from '../utils/jwt';
 import secureStorage from '../utils/secureStorage';
@@ -19,7 +19,6 @@ interface AuthContextType {
   isAuthenticated: boolean;
   refreshToken: () => Promise<void>;
   handleUnauthorized: () => Promise<void>;
-  handleForbidden: () => Promise<void>;
   refreshUserInfo: () => Promise<void>;
   forceRefreshUserInfo: () => Promise<void>;
   clearUserInfoCache: () => Promise<void>;
@@ -44,43 +43,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
   const [loading, setLoading] = useState(true);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const router = useRouter();
-
-  // 处理403禁止访问错误 - 跳转到首页
-  const handleForbidden = useCallback(async () => {
-    try {
-      console.log('🚨 检测到403禁止访问错误，开始处理...');
-      console.log('🔍 当前认证状态:', { isAuthenticated, loading, hasUser: !!user });
-      
-      // 记录错误信息
-      console.log('📝 403错误详情:', {
-        timestamp: new Date().toISOString(),
-        user: user?.userName || '未登录用户',
-        userId: user?.userId || '无用户ID'
-      });
-      
-      // 跳转到首页
-      console.log('🔄 跳转到首页...');
-      router.replace('/');
-      
-      console.log('✅ 403错误处理完成');
-    } catch (error) {
-      console.error('❌ 处理403错误失败:', error);
-      console.log('🔍 错误详情:', {
-        errorMessage: (error as Error)?.message,
-        errorStack: (error as Error)?.stack,
-        errorName: (error as Error)?.name
-      });
-      
-      // 即使处理失败，也尝试跳转到首页
-      console.log('🔄 尝试备用跳转方案...');
-      try {
-        router.replace('/');
-        console.log('✅ 备用跳转成功');
-      } catch (routerError) {
-        console.error('❌ 备用跳转也失败:', routerError);
-      }
-    }
-  }, [isAuthenticated, loading, user, router]);
 
   // 处理401未授权错误 - 提前定义以避免初始化顺序问题
   const handleUnauthorized = useCallback(async () => {
@@ -126,9 +88,9 @@ export function AuthProvider({ children }: AuthProviderProps) {
     } catch (error) {
       console.error('❌ 处理401错误失败:', error);
       console.log('🔍 错误详情:', {
-        errorMessage: (error as Error)?.message,
-        errorStack: (error as Error)?.stack,
-        errorName: (error as Error)?.name
+        errorMessage: error?.message,
+        errorStack: error?.stack,
+        errorName: error?.name
       });
       
       // 即使处理失败，也尝试跳转到登录页面
@@ -153,9 +115,8 @@ export function AuthProvider({ children }: AuthProviderProps) {
   useEffect(() => {
     setAuthContextRef({
       handleUnauthorized,
-      handleForbidden,
     });
-  }, [handleUnauthorized, handleForbidden]);
+  }, [handleUnauthorized]);
 
   // 异步加载用户数据（独立于认证状态）
   const loadUserData = async () => {
@@ -458,11 +419,10 @@ export function AuthProvider({ children }: AuthProviderProps) {
     isAuthenticated,
     refreshToken,
     handleUnauthorized,
-    handleForbidden,
     refreshUserInfo,
     forceRefreshUserInfo,
     clearUserInfoCache,
-  }), [user, loading, isAuthenticated, login, register, logout, refreshToken, handleUnauthorized, handleForbidden, refreshUserInfo, forceRefreshUserInfo, clearUserInfoCache]);
+  }), [user, loading, isAuthenticated, login, register, logout, refreshToken, handleUnauthorized, refreshUserInfo, forceRefreshUserInfo, clearUserInfoCache]);
 
   return (
     <AuthContext.Provider value={value}>

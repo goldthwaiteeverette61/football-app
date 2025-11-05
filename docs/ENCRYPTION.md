@@ -130,7 +130,7 @@ async postEncrypted<T>(endpoint: string, data?: any, headers?: Record<string, st
 import { encryptData, decryptData } from '../utils/crypto';
 
 // 加密数据
-const data = { username: 'admin', password: 'your_password' };
+const data = { username: 'admin', password: '123456' };
 const encrypted = await encryptData(data);
 console.log('加密结果:', encrypted);
 
@@ -150,7 +150,7 @@ const response1 = await apiClient.post('/api/data', { key: 'value' });
 // 加密请求
 const response2 = await apiClient.postEncrypted('/api/sensitive', { 
   username: 'admin', 
-  password: 'your_secret_password' 
+  password: 'secret' 
 });
 ```
 
@@ -160,7 +160,7 @@ const response2 = await apiClient.postEncrypted('/api/sensitive', {
 // 登录API自动使用加密
 const loginData = {
   username: 'admin',
-  password: 'your_password_123',
+  password: 'password123',
   captcha: 'ABCD',
   captchaId: 'uuid-1234'
 };
@@ -199,7 +199,7 @@ graph TD
 
 ```typescript
 const DEFAULT_CONFIG = {
-  secretKey: 'your-default-secret-key',
+  secretKey: 'score-app-2024-default',
   algorithm: 'AES',
   mode: 'CBC',
   padding: 'PKCS7',
