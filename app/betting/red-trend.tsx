@@ -1,7 +1,7 @@
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import React, { useCallback, useEffect, useState } from 'react';
-import { RefreshControl, ScrollView, StyleSheet, View } from 'react-native';
+import { ActivityIndicator, RefreshControl, ScrollView, StyleSheet, View } from 'react-native';
 import { Text, useTheme } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -51,6 +51,7 @@ const RedTrendScreen: React.FC = () => {
   const [pageNum, setPageNum] = useState(1);
   const [pageSize] = useState(10);
   const [hasMore, setHasMore] = useState(true);
+  const [isPaginating, setIsPaginating] = useState(false); // (新增) 分页加载状态
 
   // 计算中奖结果的函数
   const calculateWinningResult = (score: string, betType: string, goalLine?: string, matchStatus?: string) => {
@@ -318,8 +319,10 @@ const RedTrendScreen: React.FC = () => {
     }
   }, []);
 
-  // 获取方案列表
+  // (已修改) 获取方案列表
   const fetchSchemes = useCallback(async (page: number = 1, isRefresh: boolean = false) => {
+    if (page > 1) setIsPaginating(true); // (新增) 设置分页加载状态
+
     try {
       console.log(`获取方案列表 - 页码: ${page}, 刷新: ${isRefresh}`);
       
@@ -539,6 +542,8 @@ const RedTrendScreen: React.FC = () => {
     } catch (error) {
       console.log('获取方案列表出错:', error);
       setHasMore(false);
+    } finally {
+      if (page > 1) setIsPaginating(false); // (新增) 清除分页加载状态
     }
   }, [pageSize]);
 
@@ -551,12 +556,29 @@ const RedTrendScreen: React.FC = () => {
     setRefreshing(false);
   }, [fetchSchemes]);
 
-  // 加载更多
+  // (已修改) 加载更多
   const loadMore = useCallback(() => {
-    if (hasMore && !loading && !refreshing) {
+    console.log('loadMore 触发检查:', { hasMore, loading, refreshing, isPaginating });
+    if (hasMore && !loading && !refreshing && !isPaginating) {
+      console.log(`>>> 正在加载第 ${pageNum + 1} 页...`);
       fetchSchemes(pageNum + 1, false);
+    } else {
+      console.log('--- 阻止加载更多 ---');
     }
-  }, [hasMore, loading, refreshing, pageNum, fetchSchemes]);
+  }, [hasMore, loading, refreshing, isPaginating, pageNum, fetchSchemes]);
+
+  // (新增) 滚动事件处理
+  const handleScroll = (event: any) => {
+    const nativeEvent = event.nativeEvent;
+    const layoutHeight = nativeEvent.layoutMeasurement.height;
+    const contentOffsetY = nativeEvent.contentOffset.y;
+    const contentSizeHeight = nativeEvent.contentSize.height;
+
+    const paddingToBottom = 20;
+    if (layoutHeight + contentOffsetY >= contentSizeHeight - paddingToBottom) {
+      loadMore();
+    }
+  };
 
   useEffect(() => {
     const loadData = async () => {
@@ -855,8 +877,10 @@ const RedTrendScreen: React.FC = () => {
               tintColor={theme.colors.primary}
             />
           }
-          onScrollEndDrag={loadMore}
-        >
+        // (已修改) 使用 onScroll 和 scrollEventThrottle
+        onScroll={handleScroll}
+        scrollEventThrottle={400} // 400ms 触发一次
+      >
           {/* 紅單趨勢统计 */}
           <View style={styles.statsContainer}>
             {/* 最近50单紅單分布 */}
@@ -894,14 +918,22 @@ const RedTrendScreen: React.FC = () => {
               ) : (
                 <>
                   {trendData.schemes.map(renderSchemeCard)}
-                  {hasMore && (
-                    <View style={styles.loadMoreContainer}>
-                      <Text style={styles.loadMoreText}>加載更多方案...</Text>
-                      </View>
-                  )}
-                </>
+                  
+                  {/* (已修改) 底部加载提示 */}
+                  <View style={styles.loadMoreContainer}>
+                    {isPaginating && (
+                      <ActivityIndicator size="small" color={theme.colors.primary} />
+                    )}
+                    {hasMore && !isPaginating && (
+                      <Text style={styles.loadMoreText}>繼續滾動以加載...</Text>
+                    )}
+                    {!hasMore && (
+                       <Text style={styles.loadMoreText}>沒有更多方案了</Text>
                     )}
                   </View>
+                </>
+              )}
+            </View>
         </View>
       </ScrollView>
       </SafeAreaView>
