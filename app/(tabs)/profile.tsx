@@ -1,6 +1,6 @@
 import { useWebCompatibleAlert } from '@/components/WebCompatibleAlert';
 import { router } from 'expo-router';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Linking, Platform, ScrollView, StyleSheet, View } from 'react-native';
 import {
   Card,
@@ -11,8 +11,10 @@ import {
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import CachedAvatar from '../../components/CachedAvatar';
 
+import CustomerServiceModal from '@/components/CustomerServiceModal';
 import { useVersionCheckContext } from '@/components/VersionCheckProvider';
 import { useAuth } from '@/contexts/AuthContext';
+import { getCustomerServiceInfo } from '@/services/dictApi';
 import { createShadowStyle, fixWebAvatarDisplay, fixWebTitleDisplay, getWebAvatarContainerStyle, getWebAvatarStyle, getWebHeaderContentStyle, getWebHeaderStyle, getWebUserDetailsStyle, getWebUserInfoStyle } from '@/utils/webCompatibility';
 
 export default function ProfileScreen() {
@@ -20,6 +22,8 @@ export default function ProfileScreen() {
   const insets = useSafeAreaInsets();
   const theme = useTheme();
   const alert = useWebCompatibleAlert();
+  const [isModalVisible, setModalVisible] = useState(false);
+  const [customerInfo, setCustomerInfo] = useState(null);
   
   // 版本检查功能
   const { 
@@ -65,27 +69,33 @@ export default function ProfileScreen() {
     }
   };
 
-  const handleCustomerSupport = () => {
-    alert(
-      '客服支持',
-      '是否要打開Telegram聯繫客服？',
-      [
-        {
-          text: '取消',
-          style: 'cancel',
-        },
-        {
-          text: '打開',
-          onPress: () => {
-            const telegramUrl = '';
-            Linking.openURL(telegramUrl).catch((err) => {
-              console.error('無法打開Telegram:', err);
-              alert('錯誤', '無法打開Telegram，請檢查是否已安裝Telegram應用');
-            });
-          },
-        },
-      ]
-    );
+  const handleCustomerSupport = async () => {
+    console.log('--- [客服支持] 开始处理 ---');
+    try {
+      const response = await getCustomerServiceInfo();
+      console.log('[客服支持] API 响应:', JSON.stringify(response, null, 2)); 
+
+      // --- 修正開始 ---
+      // 根據日誌，API 直接返回一個陣列
+      if (Array.isArray(response) && response.length > 0) {
+        // CustomerServiceModal 期望一個陣列 (因為它使用了 .map())
+        // 我們將 API 返回的完整陣列傳遞給它
+        console.log('[客服支持] API 成功, 獲取到陣列數據:', JSON.stringify(response, null, 2));
+        setCustomerInfo(response); // <-- 傳遞整個 response 陣列
+        
+        console.log('[客服支持] 准备打开 Modal...');
+        setModalVisible(true);
+      } else {
+        // 響應不是一個非空陣列
+        console.warn('[客服支持] API 失败 (響應不是一個非空陣列):', response);
+        alert('错误', '获取客服信息失败或暂无客服信息');
+      }
+      // --- 修正結束 ---
+
+    } catch (error) {
+      console.error('[客服支持] 捕获到 Error:', error);
+      alert('错误', '无法连接到服务器');
+    }
   };
 
   const handleMemberCommunity = () => {
@@ -261,79 +271,7 @@ export default function ProfileScreen() {
                 onPress={handleCustomerSupport}
                 style={styles.actionItem}
               />
-            </View>
-          </Card.Content>
-        </Card>
-
-
-        {/* 系统设置 */}
-        <Card style={styles.settingsCard} elevation={2}>
-          <Card.Content style={styles.cardContent}>
-            <Text variant="titleMedium" style={[styles.sectionTitle, { color: theme.colors.onSurface }]}>
-              系統設置
-            </Text>
-            <View style={styles.quickActions}>
-              <List.Item
-                title="關於應用"
-                description="版本信息與應用詳情"
-                left={(props) => <List.Icon {...props} icon="information" color={theme.colors.outline} />}
-                right={() => {
-                  const currentVersion = getCurrentVersion();
-                  return (
-                    <View style={styles.versionInfo}>
-                      <Text variant="bodyMedium" style={{ 
-                        color: theme.colors.onSurfaceVariant,
-                        textAlignVertical: 'center',
-                        lineHeight: 20
-                      }}>
-                        {currentVersion}
-                      </Text>
-                      {hasUpdate && (
-                        <View style={[styles.updateBadge, { backgroundColor: theme.colors.error }]}>
-                          <Text variant="bodySmall" style={{ color: 'white', fontSize: 10 }}>
-                            有更新
-                          </Text>
-                        </View>
-                      )}
-                    </View>
-                  );
-                }}
-                onPress={() => {}}
-                style={styles.actionItem}
-              />
-              {Platform.OS !== 'web' && (
-                <List.Item
-                  title="檢查更新"
-                  description={isChecking ? '正在檢查...' : `最後檢查: ${formatLastCheckTime()}`}
-                  left={(props) => <List.Icon {...props} icon="update" color={theme.colors.primary} />}
-                  right={(props) => (
-                    isChecking ? (
-                      <List.Icon {...props} icon="loading" color={theme.colors.primary} />
-                    ) : (
-                      <List.Icon {...props} icon="chevron-right" color={theme.colors.onSurfaceVariant} />
-                    )
-                  )}
-                  onPress={handleCheckForUpdates}
-                  style={styles.actionItem}
-                  disabled={isChecking}
-                />
-              )}
-              <List.Item
-                title="緩存管理"
-                description="管理圖片緩存"
-                left={(props) => <List.Icon {...props} icon="cached" color={theme.colors.outline} />}
-                right={(props) => <List.Icon {...props} icon="chevron-right" color={theme.colors.onSurfaceVariant} />}
-                onPress={() => router.push('/profile/cache-management')}
-                style={styles.actionItem}
-              />
-              <List.Item
-                title="刷新用戶信息"
-                description="強制刷新用戶數據"
-                left={(props) => <List.Icon {...props} icon="refresh" color={theme.colors.outline} />}
-                onPress={handleForceRefresh}
-                style={styles.actionItem}
-              />
-              <List.Item
+               <List.Item
                 title="退出登錄"
                 description="安全退出當前賬戶"
                 left={(props) => <List.Icon {...props} icon="power" color={theme.colors.error} />}
@@ -346,6 +284,12 @@ export default function ProfileScreen() {
           </Card.Content>
         </Card>
       </ScrollView>
+
+      <CustomerServiceModal
+        visible={isModalVisible}
+        onClose={() => setModalVisible(false)}
+        customerInfo={customerInfo}
+      />
     </View>
   );
 }
